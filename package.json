@@ -1,0 +1,20 @@
+{
+  "name": "moth-talk",
+  "version": "1.0.0",
+  "description": "notifies me when moth tickets go on sale",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "tsc && node out/app.js"
+  },
+  "author": "kfcampbell",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/axios": "^0.14.0",
+    "eslint": "^6.7.0",
+    "typescript": "^3.7.2"
+  },
+  "dependencies": {
+    "axios": "^0.19.0"
+  }
+}
