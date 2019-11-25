@@ -1,4 +1,5 @@
 import * as axios from 'axios';
+import * as cheerio from 'cheerio';
 
 export class Scraper {
 
@@ -7,6 +8,7 @@ export class Scraper {
     public async execute() {
         try {
             const page = await this.getPage(this.url);
+            const output = this.parsePage(page);
         } catch (error) {
             console.error(error);
         }
@@ -19,9 +21,27 @@ export class Scraper {
     }
 
     private parsePage(pageOutput: any): any {
-        // todo(kfcampbell): do something useful with the output here
-        // inspect the page for useful tags
-        // put the cheerio code snippet here
-        // make some magic happen
+        const $ = cheerio.load(pageOutput);
+
+        // datetime information
+        const days = $('.day');
+        const months = $('.month');
+        const numericDays = $('.numeric-day');
+        const eventTimes = $('.')
+
+        // event type, theme, venue, time
+        const eventContents = $('.event-content');
+        let eventTypes = [];
+        let eventThemes = [];
+        for(let i = 0; i < eventContents.length; i++) {
+            eventTypes.push(eventContents[i].children[1].children[0].data);
+            eventThemes.push(eventContents[i].children[3].children[0].children[0].data);
+        }
+
+        const venueDetails = $('.venue-detail');
+        let venues = [];
+        for(let i = 0; i < venueDetails.length; i++) {
+            venues.push(venueDetails[i].children[1].children[0].data);
+        }
     }
 }
