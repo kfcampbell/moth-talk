@@ -1,31 +1,35 @@
 import { HttpClient } from './clients/httpClient';
 import { IParser } from './parsers/IParser';
+import { MothResults } from './parsers/mothEventParser';
+import { ISendgridClient } from './clients/sendgridClient';
+import { Constants } from './constants';
 
 export class Scraper {
     private url: string;
     private httpClient: HttpClient;
     private parser: IParser;
+    private sendgridClient: ISendgridClient
 
-    constructor(url: string, httpClient: HttpClient, parser: IParser) {
+    constructor(url: string, httpClient: HttpClient, parser: IParser, sendgridClient: ISendgridClient) {
         this.url = url;
         this.httpClient = httpClient;
         this.parser = parser;
+        this.sendgridClient = sendgridClient;
     }
 
 
     public async execute() {
         try {
-            const page = await this.httpClient.getPage(this.url);
-            const output = this.parser.parsePage(page);
+            const page: any = await this.httpClient.getPage(this.url);
+            const parsedResults: MothResults = this.parser.parsePage(page);
+            const email = this.sendgridClient.composeEmail(parsedResults, Constants.emailRecipients);
+            const result = await this.sendgridClient.sendEmail(email);
         } catch (error) {
             console.error(error);
         }
     }
 
     // todo(kfcampbell):
-    // refactor getPage to a client of some sort
-    // refactor parsePage to a repository of some sort (with interface for returned object)
     // look into memory with azure functions
     // convert to azure function
-    // wire up to sendgrid
 }
