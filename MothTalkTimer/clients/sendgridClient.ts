@@ -24,7 +24,8 @@ export class SendgridClient implements ISendgridClient {
             Type: ${mothResults.formattedEventTypes[i]}</br>
             ${mothResults.formattedVenues[i]}</br>
             Date: ${mothResults.formattedDays[i]} ${mothResults.formattedMonths[i]} ${mothResults.formattedNumericDays[i]}</br>
-            ${mothResults.formattedEventTimes[i]}
+            ${mothResults.formattedEventTimes[i]}</br>
+            Tickets on Sale: ${this.getTicketOnSaleLanguage(mothResults.ticketsOnSale[i])}
             </br></br>
             `
         }
@@ -40,6 +41,10 @@ export class SendgridClient implements ISendgridClient {
             subject: 'Tickets Now On Sale For Upcoming Moth Event',
             html: htmlEmailBody
         };
+    }
+
+    private getTicketOnSaleLanguage(ticketsOnSale: boolean) {
+        return ticketsOnSale ? 'Yes! You better buy some quick!' : 'Not yet! I\'ll keep you posted.';
     }
 
     public async sendEmail(message: MailData): Promise<[request.Response, {}]> {

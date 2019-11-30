@@ -8,7 +8,8 @@ export interface MothResults {
     formattedEventTimes: string[],
     formattedEventTypes: string[],
     formattedEventThemes: string[],
-    formattedVenues: string[]
+    formattedVenues: string[],
+    ticketsOnSale: boolean[]
 }
 
 export interface IParser {
@@ -60,6 +61,17 @@ export class MothEventParser implements IParser {
             formattedVenues.push(venueDetails[i].children[1].children[0].data.trim());
         }
 
+        // ticket availability
+        // todo(kfcampbell): find a more resilient way to get ticket availability
+        // issues here include:
+        // 1. how does $('.btn').toArray() sort results? top to bottom of page? is it deterministic?
+        // 2. is filter()'s ordering deterministic?
+        // 3. the class names are brittle. if they change, this breaks.
+        // 4. is map()'s ordering deterministic?
+        let buttons = $('.btn').toArray();
+        buttons = buttons.filter(btn => btn.attribs.class.includes("btn accent") || btn.attribs.class.includes("btn ltgrey"));
+        const ticketsOnSale: boolean[] = buttons.map(btn => btn.attribs.class.includes("btn accent"));
+
         return {
             formattedDays,
             formattedMonths,
@@ -67,7 +79,8 @@ export class MothEventParser implements IParser {
             formattedEventTimes,
             formattedEventTypes,
             formattedEventThemes,
-            formattedVenues
+            formattedVenues,
+            ticketsOnSale
         };
     }
 
