@@ -1,0 +1,7 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "DefaultEndpointsProtocol=https;AccountName=mothtalkstorage;AccountKey=02xGfccOMePgkEPZsp1JN/Pqg2/U8mi4S4mS0YeFewuni2jq2Q59cHJbBrt0RYquWLsYnH6qrqirRozskGJLTg==;EndpointSuffix=core.windows.net",
+    "FUNCTIONS_WORKER_RUNTIME": "node"
+  }
+}

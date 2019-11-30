@@ -1,5 +1,5 @@
 import { HttpClient } from './clients/httpClient';
-import { IParser } from './parsers/IParser';
+import { IParser } from './parsers/mothEventParser';
 import { MothResults } from './parsers/mothEventParser';
 import { ISendgridClient } from './clients/sendgridClient';
 import { Constants } from './constants';
@@ -31,5 +31,4 @@ export class Scraper {
 
     // todo(kfcampbell):
     // look into memory with azure functions
-    // convert to azure function
 }

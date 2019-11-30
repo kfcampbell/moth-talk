@@ -1,5 +1,4 @@
 import * as cheerio from 'cheerio';
-import { IParser } from './IParser';
 
 // this is a bit of a smell but i can't be bothered to fix it now apparently
 export interface MothResults {
@@ -10,7 +9,11 @@ export interface MothResults {
     formattedEventTypes: string[],
     formattedEventThemes: string[],
     formattedVenues: string[]
-};
+}
+
+export interface IParser {
+    parsePage(page: any): any;
+}
 
 export class MothEventParser implements IParser {
     public parsePage(page: any): MothResults {

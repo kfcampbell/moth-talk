@@ -1,0 +1,11 @@
+{
+  "bindings": [
+    {
+      "name": "mothTalkTimer",
+      "type": "timerTrigger",
+      "direction": "in",
+      "schedule": "15,45 * * * * *"
+    }
+  ],
+  "scriptFile": "../out/MothTalkTimer/index.js"
+}
