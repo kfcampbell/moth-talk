@@ -1,4 +1,5 @@
 const sgMail = require('@sendgrid/mail');
+import { Context } from "@azure/functions";
 import { MailData } from '@sendgrid/helpers/classes/mail';
 import { MothResults } from '../parsers/mothEventParser';
 import { EmailData } from '@sendgrid/helpers/classes/email-address';
@@ -10,13 +11,17 @@ export interface ISendgridClient {
 }
 
 export class SendgridClient implements ISendgridClient {
+    private readonly context: Context;
 
-    constructor(apiKey: string) {
+    constructor(apiKey: string, context: Context) {
+        this.context = context;
         sgMail.setApiKey(apiKey);
     }
 
     // todo(kfcampbell): this should be in a separate service class but i can't be bothered to do it apparently
     public composeEmail(mothResults: MothResults, destinations: EmailData[]): MailData {
+        this.context.log(`Composing email...`);
+
         let eventsBody = '';
         for(let i = 0; i < mothResults.formattedDays.length; i++) {
             eventsBody += `
@@ -35,6 +40,8 @@ export class SendgridClient implements ISendgridClient {
         ${eventsBody}
         </br></br>
         `
+
+        this.context.log(`Email composed successfully.`);
         return {
             to: destinations,
             from: 'moth-talk@kfcampbell.com',
@@ -48,6 +55,14 @@ export class SendgridClient implements ISendgridClient {
     }
 
     public async sendEmail(message: MailData): Promise<[request.Response, {}]> {
-        return await sgMail.sendMultiple(message);
+        try {
+            this.context.log(`Sending email...`);
+            const result = await sgMail.sendMultiple(message);
+            this.context.log(`Email sent successfully.`)
+            return result;
+        } catch(error) {
+            this.context.log.error(`Error calling sendgridClient#sendEmail: ${JSON.stringify(error)}`);
+            throw(error);
+        }
     }
 }

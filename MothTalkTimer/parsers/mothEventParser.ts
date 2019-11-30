@@ -1,4 +1,5 @@
 import * as cheerio from 'cheerio';
+import { Context } from '@azure/functions';
 
 // todo(kfcampbell): this is a bit of a smell but i can't be bothered to fix it now apparently
 export interface MothResults {
@@ -17,7 +18,14 @@ export interface IParser {
 }
 
 export class MothEventParser implements IParser {
+    private readonly context: Context;
+
+    constructor(context: Context){
+        this.context = context;
+    }
+
     public parsePage(page: any): MothResults {
+        this.context.log(`Parsing page...`);
         const $ = cheerio.load(page);
 
         // datetime information
@@ -71,6 +79,8 @@ export class MothEventParser implements IParser {
         let buttons = $('.btn').toArray();
         buttons = buttons.filter(btn => btn.attribs.class.includes("btn accent") || btn.attribs.class.includes("btn ltgrey"));
         const ticketsOnSale: boolean[] = buttons.map(btn => btn.attribs.class.includes("btn accent"));
+
+        this.context.log(`Parsed page successfully.`);
 
         return {
             formattedDays,

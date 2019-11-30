@@ -14,10 +14,10 @@ const timerTrigger: AzureFunction = async function (context: Context, myTimer: a
     }
 
     const url = Constants.mothSeattleUrl;
-    const httpClient = new HttpClient();
-    const mothEventParser = new MothEventParser();
-    const sendgridClient = new SendgridClient(process.env['sendgridApiKey']);
-    const scraper = new Scraper(url, httpClient, mothEventParser, sendgridClient);
+    const httpClient = new HttpClient(context);
+    const mothEventParser = new MothEventParser(context);
+    const sendgridClient = new SendgridClient(process.env['sendgridApiKey'], context);
+    const scraper = new Scraper(url, httpClient, mothEventParser, sendgridClient, context);
     await scraper.execute();
 
     context.log('Timer trigger function ran!', timeStamp);
