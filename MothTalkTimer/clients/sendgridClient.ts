@@ -15,7 +15,7 @@ export class SendgridClient implements ISendgridClient {
         sgMail.setApiKey(apiKey);
     }
 
-    // this should be in a separate service class but i can't be bothered to do it apparently
+    // todo(kfcampbell): this should be in a separate service class but i can't be bothered to do it apparently
     public composeEmail(mothResults: MothResults, destinations: EmailData[]): MailData {
         let eventsBody = '';
         for(let i = 0; i < mothResults.formattedDays.length; i++) {

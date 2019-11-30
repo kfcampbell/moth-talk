@@ -1,6 +1,6 @@
 import * as cheerio from 'cheerio';
 
-// this is a bit of a smell but i can't be bothered to fix it now apparently
+// todo(kfcampbell): this is a bit of a smell but i can't be bothered to fix it now apparently
 export interface MothResults {
     formattedDays: string[],
     formattedMonths: string[],
