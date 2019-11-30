@@ -4,7 +4,7 @@
       "name": "mothTalkTimer",
       "type": "timerTrigger",
       "direction": "in",
-      "schedule": "15,45 * * * * *"
+      "schedule": "15,45 * * * * *" // 0 0 0 * * * when deployed
     }
   ],
   "scriptFile": "../out/MothTalkTimer/index.js"

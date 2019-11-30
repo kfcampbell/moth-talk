@@ -1,8 +1,11 @@
 import * as axios from 'axios';
 import { Context } from "@azure/functions";
 
+export interface IHttpClient {
+    getPage(url: string): Promise<any>;
+}
 
-export class HttpClient {
+export class HttpClient implements IHttpClient {
     private readonly context: Context;
 
     constructor(context: Context){
