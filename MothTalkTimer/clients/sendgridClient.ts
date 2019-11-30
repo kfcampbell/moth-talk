@@ -44,7 +44,7 @@ export class SendgridClient implements ISendgridClient {
     }
 
     private getTicketOnSaleLanguage(ticketsOnSale: boolean) {
-        return ticketsOnSale ? 'Yes! You better buy some quick!' : 'Not yet! I\'ll keep you posted.';
+        return ticketsOnSale ? 'Yes! You had better buy some quick!' : 'Not yet! I\'ll keep you posted.';
     }
 
     public async sendEmail(message: MailData): Promise<[request.Response, {}]> {

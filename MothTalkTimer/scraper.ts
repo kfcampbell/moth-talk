@@ -22,7 +22,7 @@ export class Scraper {
         try {
             const page: any = await this.httpClient.getPage(this.url);
             const parsedResults: MothResults = this.parser.parsePage(page);
-            const email = this.sendgridClient.composeEmail(parsedResults, Constants.emailRecipients);
+            const email = this.sendgridClient.composeEmail(parsedResults, Constants.getEmailRecipients());
             const result = await this.sendgridClient.sendEmail(email);
         } catch (error) {
             console.error(error);
